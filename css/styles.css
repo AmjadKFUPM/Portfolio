@@ -10,12 +10,12 @@
     --bg-primary: #0a0a0a;
     --bg-secondary: #1a1a1a;
     --bg-tertiary: #2a2a2a;
-    --text-primary: #ffffff;
+    --text-primary: hsl(50 90% 85%);
     --text-secondary: #e5e5e5;
     --text-muted: #a0a0a0;
-    --gold-primary: #d4af37;
-    --gold-light: #f4e682;
-    --gold-dark: #b8941f;
+    --gold-primary: hsl(40 70% 60%);
+    --gold-light: hsl(45 80% 70%);
+    --gold-dark: hsl(35 60% 45%);
     --border: #333;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.3);
@@ -49,10 +49,10 @@
 
 /* Light Theme */
 body.light {
-    --bg-primary: #ffffff;
+    --bg-primary: hsl(0 0% 100%);
     --bg-secondary: #f8f9fa;
     --bg-tertiary: #e9ecef;
-    --text-primary: #212529;
+    --text-primary: hsl(0 0% 5%);
     --text-secondary: #495057;
     --text-muted: #6c757d;
     --border: #dee2e6;
