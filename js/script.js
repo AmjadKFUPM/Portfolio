@@ -57,7 +57,6 @@ const PERSON = {
         githubProfileLabel: "View GitHub Profile",
         linkedin: "https://sa.linkedin.com/in/amjad-alsadiq-270258382",
         twitter: "https://x.com/iq_mjood",
-        calendly: "https://calendly.com"
     },
 
     brand: {
