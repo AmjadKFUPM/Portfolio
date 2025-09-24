@@ -1,3 +1,200 @@
+// === Person Configuration (single source of truth) ===
+
+const PERSON = {
+    name: "Amjad Sadiq",
+    initials: "AS",
+    role: "Creative Software Engineer & Developer",
+    tagline: "Crafting digital experiences that soar above expectations",
+    projectsIntro: "Here are some of my recent projects that showcase my skills in web development, UI/UX design, and problem-solving.",
+
+    about: {
+        heading: "Passionate Developer & Creative Thinker",
+        paragraphs: [
+            "I'm a dedicated developer with a passion for creating digital experiences that make a difference. With expertise in modern web technologies, I love turning complex problems into simple, elegant solutions.",
+            "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or seeking inspiration in the world around me. I believe in continuous learning and pushing the boundaries of what's possible."
+        ],
+        quote: "Code is poetry, design is art, and innovation is the bridge between dreams and reality.",
+        skills: [
+            { icon: "💻", title: "Development", description: "Building responsive, modern web applications with clean, efficient code." },
+            { icon: "🎨", title: "Design", description: "Creating beautiful, user-centered designs that tell compelling stories." },
+            { icon: "⚡", title: "Innovation", description: "Always exploring new technologies and pushing creative boundaries." }
+        ]
+    },
+
+    projects: [
+        {
+            title: "E-Commerce Platform",
+            description: "A full-stack e-commerce solution with modern UI, secure payments, and real-time inventory management.",
+            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&crop=center",
+            tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
+            links: { live: "https://example.com/ecommerce", repo: "https://github.com/johndoe/ecommerce" },
+            featured: true
+        },
+        {
+            title: "Task Management App",
+            description: "Collaborative project management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
+            image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop&crop=center",
+            tech: ["Vue.js", "Firebase", "Tailwind CSS"],
+            links: { live: "https://example.com/taskapp", repo: "https://github.com/johndoe/taskapp" },
+            featured: false
+        },
+        {
+            title: "Weather Analytics Dashboard",
+            description: "Interactive weather dashboard with data visualization, forecasting, and location-based insights using external APIs.",
+            image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop&crop=center",
+            tech: ["JavaScript", "Chart.js", "Weather API"],
+            links: { live: "https://example.com/weather", repo: "https://github.com/johndoe/weather-dashboard" },
+            featured: false
+        }
+    ],
+
+    email: { address: "S202269000@kfupm.edu.sa", mailto: "mailto:S202269000@kfupm.edu.sa" },
+    phone: { number: "+966 55 700 6053", tel: "tel:+966557006053" },
+    location: "Dhahran, SA",
+
+    links: {
+        github: "https://github.com/AmjadKFUPM",
+        githubProfileLabel: "View GitHub Profile",
+        linkedin: "https://sa.linkedin.com/in/amjad-alsadiq-270258382",
+        twitter: "https://x.com/iq_mjood",
+        calendly: "https://calendly.com"
+    },
+
+    brand: {
+        title: "Portfolio",
+        footerBlurb: "Crafting digital experiences that soar above expectations. Let's build something amazing together.",
+        footerContactTitle: "Get In Touch"
+    },
+
+    heroButtons: { primary: "View My Work", secondary: "Get In Touch" }
+};
+
+function renderProjects() {
+    const grid = document.querySelector(".projects-grid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    PERSON.projects.forEach((proj) => {
+        const card = document.createElement("div");
+        card.className = "project-card" + (proj.featured ? " featured" : "");
+        card.innerHTML = `
+      ${proj.featured ? '<div class="project-badge">Featured</div>' : ''}
+      <div class="project-image">
+        <img src="${proj.image !== 'AA' ? proj.image : ''}" alt="${proj.title}">
+        <div class="project-overlay">
+          <div class="project-actions">
+            <button class="action-btn">🔗</button>
+            <button class="action-btn secondary">📁</button>
+          </div>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>${proj.title}</h3>
+        <p>${proj.description}</p>
+        <div class="project-tech">
+          ${(proj.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        </div>
+        <div class="project-links">
+          <button class="btn btn-primary">🔗 Live Demo</button>
+          <button class="btn btn-outline">📁</button>
+        </div>
+      </div>`;
+
+        // buttons
+        const [liveBtn, repoBtn] = card.querySelectorAll(".project-links .btn");
+        if (liveBtn) liveBtn.onclick = () => window.open(proj.links?.live || "#", "_blank");
+        if (repoBtn) repoBtn.onclick = () => window.open(proj.links?.repo || "#", "_blank");
+        const [actLive, actRepo] = card.querySelectorAll(".project-actions .action-btn");
+        if (actLive) actLive.onclick = () => window.open(proj.links?.live || "#", "_blank");
+        if (actRepo) actRepo.onclick = () => window.open(proj.links?.repo || "#", "_blank");
+
+        grid.appendChild(card);
+    });
+}
+
+function applyPersonConfig() {
+    // Hero
+    const titleEl = document.querySelector(".title-highlight");
+    if (titleEl) titleEl.textContent = PERSON.role;
+    const taglineEl = document.querySelector(".hero-tagline");
+    if (taglineEl) taglineEl.textContent = PERSON.tagline;
+    const heroBtns = document.querySelectorAll(".hero-buttons .btn");
+    if (heroBtns[0]) heroBtns[0].textContent = PERSON.heroButtons.primary;
+    if (heroBtns[1]) heroBtns[1].textContent = PERSON.heroButtons.secondary;
+
+    // About
+    const aboutHeading = document.querySelector(".about-text h3");
+    if (aboutHeading) aboutHeading.textContent = PERSON.about.heading;
+    const aboutParas = document.querySelectorAll(".about-text p");
+    PERSON.about.paragraphs.forEach((text, i) => { if (aboutParas[i]) aboutParas[i].textContent = text; });
+    const quoteEl = document.querySelector(".about .quote p");
+    if (quoteEl) quoteEl.textContent = PERSON.about.quote;
+
+    // Profile initials (About)
+    const initialsEl = document.querySelector(".profile-avatar span");
+    if (initialsEl) initialsEl.textContent = PERSON.initials;
+
+    // Skills
+    const skillCards = document.querySelectorAll(".skills-grid .skill-card");
+    PERSON.about.skills.forEach((skill, i) => {
+        const card = skillCards[i];
+        if (card) {
+            const iconEl = card.querySelector(".skill-icon");
+            const titleEl = card.querySelector("h4");
+            const descEl = card.querySelector("p");
+            if (iconEl) iconEl.textContent = skill.icon;
+            if (titleEl) titleEl.textContent = skill.title;
+            if (descEl) descEl.textContent = skill.description;
+        }
+    });
+
+    // Projects intro text
+    const projDesc = document.getElementById("projects-description");
+    if (projDesc) projDesc.textContent = PERSON.projectsIntro;
+
+    // Render projects from config
+    renderProjects();
+
+    // Projects CTA (View GitHub Profile)
+    const ghBtn = document.getElementById("view-github-profile");
+    if (ghBtn) {
+        ghBtn.textContent = PERSON.links.githubProfileLabel || "View GitHub Profile";
+        ghBtn.onclick = () => window.open(PERSON.links.github || "#", "_blank");
+    }
+
+    // Contact cards (main Contact section)
+    document.querySelectorAll(".contact-card").forEach((card) => {
+        const label = card.querySelector("h4")?.textContent?.trim().toLowerCase();
+        const p = card.querySelector("p");
+        if (label === "email") { card.setAttribute("href", PERSON.email.mailto); if (p) p.textContent = PERSON.email.address; }
+        else if (label === "phone") { card.setAttribute("href", PERSON.phone.tel); if (p) p.textContent = PERSON.phone.number; }
+        else if (label === "location") { if (p) p.textContent = PERSON.location; }
+    });
+
+    // Footer overrides (Get In Touch)
+    const footerTitle = document.getElementById("footer-contact-title");
+    if (footerTitle) footerTitle.textContent = PERSON.brand.footerContactTitle || "Get In Touch";
+    const footLoc = document.getElementById("footer-location");
+    if (footLoc) footLoc.textContent = PERSON.location;
+    const footEmail = document.getElementById("footer-email");
+    if (footEmail) footEmail.textContent = PERSON.email.address;
+    const footPhone = document.getElementById("footer-phone");
+    if (footPhone) footPhone.textContent = PERSON.phone.number;
+
+    // Footer brand + blurb
+    const footerBrand = document.querySelector(".footer-logo span");
+    if (footerBrand) footerBrand.textContent = PERSON.brand.title;
+    const footerBlurb = document.querySelector(".footer .footer-section p");
+    if (footerBlurb) footerBlurb.textContent = PERSON.brand.footerBlurb;
+
+    // Social links
+    const socialLinks = document.querySelectorAll(".social-links a");
+    if (socialLinks[0]) socialLinks[0].setAttribute("href", PERSON.links.github || "#");
+    if (socialLinks[1]) socialLinks[1].setAttribute("href", PERSON.links.linkedin || "#");
+    if (socialLinks[2]) socialLinks[2].setAttribute("href", PERSON.links.twitter || "#");
+}
+
 // Theme Management
 class ThemeManager {
     constructor() {
@@ -140,7 +337,7 @@ class GreetingManager {
                 greeting = 'Good Evening';
             }
 
-            greetingElement.textContent = `${greeting}! 👋`;
+            greetingElement.textContent = `${greeting}!`;
         }
     }
 }
@@ -320,6 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateFooterYear();
     initScrollAnimations();
     initParallaxEffect();
+    applyPersonConfig();
 
     // Add smooth reveal animation to hero content
     setTimeout(() => {
