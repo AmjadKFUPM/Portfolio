@@ -28,7 +28,7 @@ const PERSON = {
             image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&crop=center",
             tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
             links: { live: "https://example.com/ecommerce", repo: "https://github.com/johndoe/ecommerce" },
-            featured: true
+            featured: false
         },
         {
             title: "Task Management App",
@@ -94,10 +94,10 @@ function renderProjects() {
         <div class="project-tech">
           ${(proj.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
         </div>
-        <div class="project-links">
+        <!-- <div class="project-links">
           <button class="btn btn-primary">🔗 Live Demo</button>
           <button class="btn btn-outline">📁</button>
-        </div>
+        </div> -->
       </div>`;
 
         // buttons
@@ -133,6 +133,10 @@ function applyPersonConfig() {
     // Profile initials (About)
     const initialsEl = document.querySelector(".profile-avatar span");
     if (initialsEl) initialsEl.textContent = PERSON.initials;
+
+    // Nav (Name)
+    const nameEl = document.querySelector(".logo span");
+    if (nameEl) nameEl.textContent = PERSON.name;
 
     // Skills
     const skillCards = document.querySelectorAll(".skills-grid .skill-card");
@@ -220,13 +224,28 @@ class ThemeManager {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
         this.applyTheme();
         this.updateThemeIcons();
+        window.dispatchEvent(new Event('scroll'));
     }
 
     updateThemeIcons() {
-        const icons = document.querySelectorAll('.theme-icon');
-        icons.forEach(icon => {
-            icon.textContent = this.theme === 'dark' ? '☀️' : '🌙';
+        const holders = document.querySelectorAll('.theme-icon');
+        holders.forEach(holder => {
+            // Ensure there is an <i data-lucide="..."> inside
+            let i = holder.querySelector('[data-lucide]');
+            if (!i) {
+                holder.innerHTML = '<i data-lucide="moon"></i>';
+                i = holder.querySelector('[data-lucide]');
+            }
+
+            // ThemeManager uses `this.theme` = 'dark' | 'light'
+            const want = (this.theme === 'dark') ? 'moon' : 'sun';
+            i.setAttribute('data-lucide', want);
         });
+
+        // Re-render Lucide after changing attributes
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+        }
     }
 
     bindEvents() {
@@ -252,12 +271,29 @@ class NavigationManager {
         // Mobile menu toggle
         const menuToggle = document.getElementById('mobile-menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        
+
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-                const icon = menuToggle.querySelector('.menu-icon');
-                icon.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+                
+                let isOpen = mobileMenu.classList.toggle('active');
+
+                const menuToggle = document.getElementById('mobile-menu-toggle');
+                if (!menuToggle) return;
+
+                const holder = menuToggle.querySelector('.menu-icon');
+                if (!holder) return;
+
+                let i = holder.querySelector('[data-lucide]');
+                if (!i) {
+                    holder.innerHTML = '<i data-lucide="menu"></i>';
+                    i = holder.querySelector('[data-lucide]');
+                }
+
+                i.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+                if (window.lucide && typeof lucide.createIcons === 'function') {
+                    lucide.createIcons();
+                }
+
             });
         }
 
@@ -272,9 +308,26 @@ class NavigationManager {
                 // Close mobile menu
                 if (mobileMenu) {
                     mobileMenu.classList.remove('active');
-                    const icon = menuToggle.querySelector('.menu-icon');
-                    icon.textContent = '☰';
+
+                    const holder = menuToggle?.querySelector('.menu-icon');
+                    if (holder) {
+                        // Ensure there's a Lucide icon element
+                        let i = holder.querySelector('[data-lucide]');
+                        if (!i) {
+                            holder.innerHTML = '<i data-lucide="menu"></i>';
+                            i = holder.querySelector('[data-lucide]');
+                        }
+
+                        // Set to the closed-state icon
+                        i.setAttribute('data-lucide', 'menu');
+
+                        // Re-render the SVG
+                        if (window.lucide && typeof lucide.createIcons === 'function') {
+                            lucide.createIcons();
+                        }
+                    }
                 }
+
             });
         });
 
@@ -284,19 +337,17 @@ class NavigationManager {
 
     handleScroll() {
         const header = document.getElementById('header');
-        if (header) {
-            // Header is always visible with backdrop blur
-            if (window.scrollY > 50) {
-                header.style.background = this.theme === 'light' 
-                    ? 'rgba(255, 255, 255, 0.95)' 
-                    : 'rgba(10, 10, 10, 0.95)';
-            } else {
-                header.style.background = this.theme === 'light' 
-                    ? 'rgba(255, 255, 255, 0.9)' 
-                    : 'rgba(10, 10, 10, 0.9)';
-            }
+        if (!header) return;
+
+        const isLight = document.body.classList.contains('light');
+
+        if (window.scrollY > 50) {
+            header.style.background = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 10, 0.95)';
+        } else {
+            header.style.background = isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(10, 10, 10, 0.9)';
         }
     }
+
 
     scrollToSection(sectionId) {
         const element = document.getElementById(sectionId);
@@ -526,6 +577,12 @@ document.addEventListener('DOMContentLoaded', () => {
             heroContent.style.transform = 'translateY(0)';
         }
     }, 300);
+
+    // === Icons ===
+
+    if (window.lucide && lucide.createIcons) {
+        lucide.createIcons();
+    }
 });
 
 // Handle window resize
@@ -537,8 +594,18 @@ window.addEventListener('resize', () => {
     if (window.innerWidth > 768 && mobileMenu) {
         mobileMenu.classList.remove('active');
         if (menuToggle) {
-            const icon = menuToggle.querySelector('.menu-icon');
-            if (icon) icon.textContent = '☰';
+            const holder = menuToggle.querySelector('.menu-icon');
+            if (holder) {
+                let i = holder.querySelector('[data-lucide]');
+                if (!i) {
+                    holder.innerHTML = '<i data-lucide="menu"></i>';
+                    i = holder.querySelector('[data-lucide]');
+                }
+                i.setAttribute('data-lucide', 'menu');
+                if (window.lucide && typeof lucide.createIcons === 'function') {
+                    lucide.createIcons();
+                }
+            }
         }
     }
 });

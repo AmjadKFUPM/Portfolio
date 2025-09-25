@@ -9,7 +9,8 @@
     /* Colors - Dark Theme (Default) */
     --bg-primary: #0a0a0a;
     --bg-secondary: #1a1a1a;
-    --bg-tertiary: #2a2a2a;
+    /* --bg-tertiary: #2a2a2a; */
+    --bg-tertiary: hsl(0 0% 8%);
     --text-primary: hsl(50 90% 85%);
     --text-secondary: #e5e5e5;
     --text-muted: #a0a0a0;
@@ -48,7 +49,7 @@
 }
 
 /* Light Theme */
-body.light {
+/* body.light {
     --bg-primary: hsl(0 0% 100%);
     --bg-secondary: #f8f9fa;
     --bg-tertiary: #e9ecef;
@@ -57,6 +58,23 @@ body.light {
     --text-muted: #6c757d;
     --border: #dee2e6;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+} */
+
+body.light {
+  --bg-primary:  hsl(40 25% 94%);
+  --bg-secondary:hsl(40 22% 90%);
+  --bg-tertiary: hsl(40 18% 86%);
+
+  --text-primary:   hsl(30 22% 14%);
+  --text-secondary: hsl(30 16% 28%);
+  --text-muted:     hsl(30 12% 40%);
+
+  --gold-primary: hsl(40 75% 50%);
+  --gold-light:   hsl(45 90% 60%);
+  --gold-dark:    hsl(35 70% 38%);
+
+  --border: hsl(35 18% 78%);
+  --shadow: 0 6px 16px rgba(0,0,0,0.07);
 }
 
 body {
@@ -77,18 +95,19 @@ body {
 /* Header Styles */
 #header {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 1000;
-    background: rgba(10, 10, 10, 0.9);
+    background: var(--bg-primary);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
     transition: var(--transition);
 }
 
 body.light #header {
-    background: rgba(255, 255, 255, 0.9);
+    /* background: rgba(255, 255, 255, 0.9); */
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
 
 .nav-content {
@@ -153,13 +172,15 @@ body.light #header {
 }
 
 .theme-btn {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
+    /* background: var(--bg-secondary);
+    border: 1px solid var(--border); */
+    background: transparent;
+    border: none;
     border-radius: 8px;
     padding: var(--spacing-sm);
     cursor: pointer;
     transition: var(--transition-fast);
-    font-size: var(--font-size-lg);
+    /* font-size: var(--font-size-lg); */
 }
 
 .theme-btn:hover {
@@ -188,7 +209,7 @@ body.light #header {
 }
 
 .menu-icon {
-    color: var(--gold-primary);
+    color: var(--text-primary);
 }
 
 .menu-icon:hover {
@@ -221,6 +242,7 @@ body.light #header {
         border-top: 1px solid var(--border);
         /* animation states */
         max-height: 0;
+        padding: 0;                    /* remove spacing when closed */
         overflow: hidden;
         opacity: 0;
         transform: translateY(-8px);
@@ -280,10 +302,13 @@ body.light #header {
 }
 
 .hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-size: clamp(var(--font-size-3xl), 8vw, var(--font-size-6xl));
     font-weight: bold;
     margin-bottom: var(--spacing-lg);
-    line-height: 1.2;
+    line-height: 1.4;
 }
 
 .title-line {
@@ -392,7 +417,7 @@ section {
     padding: var(--spacing-3xl) 0;
 }
 
-.about {
+/* .about {
     background: var(--bg-secondary);
 }
 
@@ -402,7 +427,7 @@ section {
 
 .contact {
     background: var(--bg-secondary);
-}
+} */
 
 .section-header {
     text-align: center;
@@ -973,10 +998,17 @@ section {
     color: var(--text-muted);
 }
 
+.footer-heart-icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--gold-primary);
+    fill: var(--gold-primary);
+}
+
 /* Animations */
 @keyframes pulse {
-    0%, 100% { opacity: 0.1; }
-    50% { opacity: 0.2; }
+    0%, 100% { filter: brightness(0.5); }
+    50% { filter: brightness(1); }
 }
 
 @keyframes bounce {
@@ -1072,3 +1104,50 @@ textarea:focus {
     outline: 2px solid var(--gold-primary);
     outline-offset: 2px;
 }
+
+
+/* --- Icon styling --- */
+.theme-icon i[data-lucide],
+.menu-icon i[data-lucide],
+.contact-icon i[data-lucide],
+.footer-socials i[data-lucide],
+.skill-icon i[data-lucide] {
+    width: 1.25em;
+    height: 1.25em;
+    display: inline-block;
+    vertical-align: middle;
+    stroke-width: 2;
+}
+
+/* Send button */
+.btn-submit {
+  display: block;
+  margin: 0 auto;              /* center the button */
+  padding: var(--spacing-lg);
+  position: relative;
+}
+
+.btn-submit [data-lucide] {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.1em;
+  vertical-align: middle;
+}
+
+.theme-icon {
+    color: var(--text-primary);
+}
+
+.contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-primary);
+}
+
+.footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+/* --- End icon styling --- */
