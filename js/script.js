@@ -8,42 +8,34 @@ const PERSON = {
     projectsIntro: "Here are some of my recent projects that showcase my skills in web development, UI/UX design, and problem-solving.",
 
     about: {
-        heading: "Passionate Developer & Creative Thinker",
+        heading: "Software Engineering Student at KFUPM | Co-Founder & Developer at Eagle AntiCheat",
         paragraphs: [
-            "I'm a dedicated developer with a passion for creating digital experiences that make a difference. With expertise in modern web technologies, I love turning complex problems into simple, elegant solutions.",
-            "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or seeking inspiration in the world around me. I believe in continuous learning and pushing the boundaries of what's possible."
+            "I’m a Software Engineering student at KFUPM with a strong focus on building practical solutions through code. My studies and side projects have strengthened my skills in modern development, problem-solving, and creating reliable software.",
+            "As the Co-Founder & Developer of Eagle AntiCheat, I work on delivering secure and fair gaming experiences. This role has sharpened my technical expertise while giving me hands-on experience in teamwork, product design, and real-world problem solving."
         ],
         quote: "Code is poetry, design is art, and innovation is the bridge between dreams and reality.",
         skills: [
-            { icon: "💻", title: "Development", description: "Building responsive, modern web applications with clean, efficient code." },
-            { icon: "🎨", title: "Design", description: "Creating beautiful, user-centered designs that tell compelling stories." },
-            { icon: "⚡", title: "Innovation", description: "Always exploring new technologies and pushing creative boundaries." }
+            { icon: "code", title: "Development", description: "Building responsive, modern web applications with clean, efficient code." },
+            { icon: "palette", title: "Design", description: "Creating beautiful, user-centered designs that tell compelling stories." },
+            { icon: "zap", title: "Innovation", description: "Always exploring new technologies and pushing creative boundaries." }
         ]
     },
 
     projects: [
         {
-            title: "E-Commerce Platform",
-            description: "A full-stack e-commerce solution with modern UI, secure payments, and real-time inventory management.",
-            image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&crop=center",
-            tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
-            links: { live: "https://example.com/ecommerce", repo: "https://github.com/johndoe/ecommerce" },
+            title: "FiveM Eagle AntiCheat",
+            description: "A robust anti-cheat solution for FiveM servers, designed to detect and prevent unfair gameplay by combining real-time monitoring, advanced detection algorithms, and seamless integration.",
+            image: "https://i.postimg.cc/hvCR7gZY/logo.png",
+            tech: ["Lua", "Node.js", "React"],
+            links: { live: "https://eaglecheat.com", repo: "" },
             featured: false
         },
         {
-            title: "Task Management App",
-            description: "Collaborative project management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
-            image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop&crop=center",
-            tech: ["Vue.js", "Firebase", "Tailwind CSS"],
-            links: { live: "https://example.com/taskapp", repo: "https://github.com/johndoe/taskapp" },
-            featured: false
-        },
-        {
-            title: "Weather Analytics Dashboard",
-            description: "Interactive weather dashboard with data visualization, forecasting, and location-based insights using external APIs.",
-            image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop&crop=center",
-            tech: ["JavaScript", "Chart.js", "Weather API"],
-            links: { live: "https://example.com/weather", repo: "https://github.com/johndoe/weather-dashboard" },
+            title: "KFUPM Student Impact Hub",
+            description: "A requirements engineering project for a student platform that connects KFUPM students with social impact initiatives, volunteer opportunities, and collaborative projects.",
+            image: "https://i.postimg.cc/qvTk4gtd/image.png",
+            tech: ["Requirements Engineering", "Software Documentation", "System Modeling"],
+            links: { live: "", repo: "" },
             featured: false
         }
     ],
@@ -69,22 +61,23 @@ const PERSON = {
 };
 
 function renderProjects() {
-    const grid = document.querySelector(".projects-grid");
-    if (!grid) return;
+  const grid = document.querySelector(".projects-grid");
+  if (!grid) return;
 
-    grid.innerHTML = "";
+  grid.innerHTML = "";
 
-    PERSON.projects.forEach((proj) => {
-        const card = document.createElement("div");
-        card.className = "project-card" + (proj.featured ? " featured" : "");
-        card.innerHTML = `
+  PERSON.projects.forEach((proj) => {
+    const card = document.createElement("div");
+    card.className = "project-card" + (proj.featured ? " featured" : "");
+
+    card.innerHTML = `
       ${proj.featured ? '<div class="project-badge">Featured</div>' : ''}
       <div class="project-image">
         <img src="${proj.image !== 'AA' ? proj.image : ''}" alt="${proj.title}">
         <div class="project-overlay">
           <div class="project-actions">
-            <button class="action-btn">🔗</button>
-            <button class="action-btn secondary">📁</button>
+            ${proj.links?.live ? `<button class="action-btn"><i data-lucide="external-link"></i></button>` : ""}
+            ${proj.links?.repo ? `<button class="action-btn secondary"><i data-lucide="github"></i></button>` : ""}
           </div>
         </div>
       </div>
@@ -92,24 +85,34 @@ function renderProjects() {
         <h3>${proj.title}</h3>
         <p>${proj.description}</p>
         <div class="project-tech">
-          ${(proj.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+          ${(proj.tech || []).map(t => `<span class="tech-tag">${t}</span>`).join("")}
         </div>
-        <!-- <div class="project-links">
-          <button class="btn btn-primary">🔗 Live Demo</button>
-          <button class="btn btn-outline">📁</button>
-        </div> -->
+        <div class="project-links">
+          ${proj.links?.live ? `<button class="btn btn-primary"><i data-lucide="external-link"></i> Visit</button>` : ""}
+          ${proj.links?.repo ? `<button class="btn btn-outline"><i data-lucide="github"></i> Repository</button>` : ""}
+        </div>
       </div>`;
 
-        // buttons
-        const [liveBtn, repoBtn] = card.querySelectorAll(".project-links .btn");
-        if (liveBtn) liveBtn.onclick = () => window.open(proj.links?.live || "#", "_blank");
-        if (repoBtn) repoBtn.onclick = () => window.open(proj.links?.repo || "#", "_blank");
-        const [actLive, actRepo] = card.querySelectorAll(".project-actions .action-btn");
-        if (actLive) actLive.onclick = () => window.open(proj.links?.live || "#", "_blank");
-        if (actRepo) actRepo.onclick = () => window.open(proj.links?.repo || "#", "_blank");
+    // buttons (only add listeners if links exist)
+    const liveBtn = card.querySelector(".btn.btn-primary");
+    if (liveBtn) liveBtn.onclick = () => window.open(proj.links.live, "_blank");
 
-        grid.appendChild(card);
-    });
+    const repoBtn = card.querySelector(".btn.btn-outline");
+    if (repoBtn) repoBtn.onclick = () => window.open(proj.links.repo, "_blank");
+
+    const actLive = card.querySelector(".action-btn:not(.secondary)");
+    if (actLive) actLive.onclick = () => window.open(proj.links.live, "_blank");
+
+    const actRepo = card.querySelector(".action-btn.secondary");
+    if (actRepo) actRepo.onclick = () => window.open(proj.links.repo, "_blank");
+
+    grid.appendChild(card);
+  });
+
+  // Render Lucide icons after inserting
+  if (window.lucide && typeof lucide.createIcons === "function") {
+    lucide.createIcons();
+  }
 }
 
 function applyPersonConfig() {
@@ -146,7 +149,7 @@ function applyPersonConfig() {
             const iconEl = card.querySelector(".skill-icon");
             const titleEl = card.querySelector("h4");
             const descEl = card.querySelector("p");
-            if (iconEl) iconEl.textContent = skill.icon;
+            if (iconEl) iconEl.innerHTML = `<i data-lucide="${skill.icon}"></i>`;
             if (titleEl) titleEl.textContent = skill.title;
             if (descEl) descEl.textContent = skill.description;
         }

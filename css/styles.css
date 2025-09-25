@@ -1110,13 +1110,26 @@ textarea:focus {
 .theme-icon i[data-lucide],
 .menu-icon i[data-lucide],
 .contact-icon i[data-lucide],
-.footer-socials i[data-lucide],
-.skill-icon i[data-lucide] {
+.footer-socials i[data-lucide] {
     width: 1.25em;
     height: 1.25em;
     display: inline-block;
     vertical-align: middle;
     stroke-width: 2;
+}
+
+.skill-icon [data-lucide] {
+    width: 1.2em;
+    height: 1.2em;
+    display: inline-block;
+    vertical-align: middle;
+    stroke-width: 2;
+    color: var(--gold-primary);
+}
+
+.project-links .btn [data-lucide] {
+  margin-right: 0.5em;
+  vertical-align: middle;
 }
 
 /* Send button */
