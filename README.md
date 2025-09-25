@@ -7,6 +7,23 @@ A personal portfolio website showcasing creative developer skills, originally pr
 
 This project is a responsive portfolio site with sections for **About**, **Projects**, and **Contact**, along with a a polished gold-accented design. It demonstrates clean UI practices and custom styling without external frameworks.
 
+
+## Features  
+- **Hero Section** – greeting, role, and tagline.  
+- **About Section** – bio, quote, and skills with icons.  
+- **Projects Section** – dynamic cards with featured badge and links.  
+- **Contact Section** – contact info and form with simulated submission.  
+- **Footer** – branding, social links, quick links.  
+
+
+## Highlights  
+- **Dark/Light Mode Toggle** with persistent theme.  
+- **Lucide Icons** for modern, consistent visuals.  
+- **Responsive Design** for desktop, tablet, and mobile.  
+- **Dynamic Projects** powered by a configuration object (`PERSON.projects`).  
+- **Scroll Animations** for engaging user experience.  
+
+
 ## Setup Instructions
 
 1. Clone or download this repository.
